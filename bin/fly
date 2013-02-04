@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+search_terms = ARGV*'%20'
+
+class String
+	def bright;colour(1);end
+	def orange;colour(91);end
+	def colour(colour_code);"\e[#{colour_code}m#{self}\e[0m";end
+end
+
+buckle_up = "Buckle your seat belt!".bright
+money_shot = "adioso.com".orange
+woosh = "launching..".bright
+puts "#{buckle_up}  #{money_shot} #{woosh}"
+
+`open http://adioso.com/search?q=#{search_terms}`
+
+# Made in gratidude by a big adioso fan. Thanks guys for your inspiring work!
+# Made in OZ

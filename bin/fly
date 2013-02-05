@@ -1,5 +1,60 @@
 #!/usr/bin/env ruby
-search_terms = ARGV*'%20'
+require 'optparse'
+
+VERSION = '1.0'
+
+class Fly
+	def self.process_options(argv)
+		options = {}
+		opts = OptionParser.new do |opts|
+		  opts.banner = "Usage: fly [search terms]|[options]"
+			opts.on_tail("-h", "--help", "Show this message") do
+			  puts opts
+			  # exit
+			end
+		  opts.on("-v", "--version", "Show version") do |v|
+		    puts VERSION
+		    exit
+		  end
+		  opts.on("-e", "--examples", "Show example searches") do |v|
+				output = <<OUTPUT
+Try these:
+ fly to melbourne
+ fly from rome to rio
+ fly san fransisco late october
+ fly bali in mid june
+ fly somewhere warm
+ fly anywhere friday afternoon
+OUTPUT
+				puts output
+		    exit
+		  end
+		end
+		if argv.empty?
+			puts opts
+			exit
+		else
+			begin opts.parse! argv
+			rescue OptionParser::InvalidOption => e
+			  puts e
+			  puts opts
+			  exit 1
+			end
+		end
+	end
+
+	def self.label
+		buckle_up = "Buckle your seat belt!".bright
+		money_shot = "adioso.com".orange
+		woosh = "launching..".bright
+		"#{buckle_up}\n #{money_shot} #{woosh}"
+	end
+
+	def self.search(search_terms)
+		puts label
+		`open http://adioso.com/search?q=#{search_terms}`
+	end
+end
 
 class String
 	def bright;colour(1);end
@@ -7,12 +62,10 @@ class String
 	def colour(colour_code);"\e[#{colour_code}m#{self}\e[0m";end
 end
 
-buckle_up = "Buckle your seat belt!".bright
-money_shot = "adioso.com".orange
-woosh = "launching..".bright
-puts "#{buckle_up}  #{money_shot} #{woosh}"
+# Process blank or any switch options
+Fly.process_options(ARGV)
 
-`open http://adioso.com/search?q=#{search_terms}`
-
-# Made in gratidude by a big adioso fan. Thanks guys for your inspiring work!
-# Made in OZ
+# Options parser leaves ARGV with the remainer of anything it
+# didn't process.
+search_terms = ARGV*'%20'
+Fly.search(search_terms) unless search_terms.empty?

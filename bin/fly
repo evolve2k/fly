@@ -7,40 +7,56 @@ class Fly
 	def self.process_options(argv)
 		options = {}
 		opts = OptionParser.new do |opts|
-		  opts.banner = "Usage: fly [search terms]|[options]"
+		  opts.banner = "Usage: fly [search terms]|[-option]"
 			opts.on_tail("-h", "--help", "Show this message") do
 			  puts opts
+				puts examples.green
 			  # exit
 			end
 		  opts.on("-v", "--version", "Show version") do |v|
 		    puts VERSION
 		    exit
 		  end
-		  opts.on("-e", "--examples", "Show example searches") do |v|
-				output = <<OUTPUT
-Try these:
- fly to melbourne
- fly from rome to rio
- fly san fransisco late october
- fly bali in mid june
- fly somewhere warm
- fly anywhere friday afternoon
-OUTPUT
-				puts output
+		  opts.on("-e", "--examples", "Show more example searches") do |v|
+				print examples.bright
+				puts "And these.."
+				puts more_examples.green
+				puts "for even more amazing search options check out:"
+				puts "http://adioso.com/blog/2013/01/a-year-ago-no-travel-site-in-the-world-could-answer-these-flight-searches".orange
 		    exit
 		  end
 		end
 		if argv.empty?
 			puts opts
+			puts examples.green
 			exit
 		else
 			begin opts.parse! argv
 			rescue OptionParser::InvalidOption => e
 			  puts e
 			  puts opts
+			  puts examples.green
 			  exit 1
 			end
 		end
+	end
+
+	def self.examples
+		puts "\nTry these:"
+		o =<<OUTPUT
+ fly to melbourne
+ fly from rome to rio
+ fly san fransisco late october 
+ fly anywhere friday afternoon
+OUTPUT
+	end
+
+	def self.more_examples
+		o = <<OUTPUT 
+ fly bali in mid june
+ fly somewhere warm		
+ fly to singapore for 7 to 10 days
+OUTPUT
 	end
 
 	def self.label
@@ -57,9 +73,10 @@ OUTPUT
 end
 
 class String
+	def colour(colour_code);"\e[#{colour_code}m#{self}\e[0m";end
 	def bright;colour(1);end
 	def orange;colour(91);end
-	def colour(colour_code);"\e[#{colour_code}m#{self}\e[0m";end
+	def green;colour(92);end
 end
 
 # Process blank or any switch options

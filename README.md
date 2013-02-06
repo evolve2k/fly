@@ -1,6 +1,6 @@
 # fly
 
-Execute flight searches right from the command line
+Execute flight searches from the command line
 
 ## Installation 
 

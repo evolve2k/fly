@@ -4,7 +4,7 @@ Execute natural language flight searches from the command line
 
 ## Installation 
 
-    brew install https://raw.github.com/evolve2k/fly/formula/fly.rb
+    brew install https://raw.github.com/evolve2k/fly/master/formula/fly.rb
 
 ## Usage
 

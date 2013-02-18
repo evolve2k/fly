@@ -5,8 +5,7 @@ Flight commands open your default browser and execute on adioso.com
 
 ## Installation
 
-Run 'fly'
-Set it up in your paths so it will run anywhere.
+    brew install https://raw.github.com/evolve2k/fly/formula/fly.rb
 
 ## Usage
 
